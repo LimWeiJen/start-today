@@ -11,18 +11,18 @@ datasource db {
 }
 
 model User {
-  id        BigInt  @id @default(autoincrement())
   name      String
-  github    String
+  github    String   @id
   posts     Post[]
+  createdAt DateTime @default(now())
 }
 
 model Post {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   day       Int
   title     String
   content   String
   date      DateTime @default(now())
-  authorId  BigInt
-  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [github])
 }
