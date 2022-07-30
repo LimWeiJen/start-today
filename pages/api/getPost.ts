@@ -5,13 +5,11 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-	const newPost = await prisma.post.create({
-		data: {
-			title: req.body.title,
-			content: req.body.content,
-			authorId: req.body.github,
-			day: req.body.day
+	const post = await prisma.post.findFirst({
+		where: {
+			id: req.body.id
 		}
-	});
-	return res.status(200).json({ postId: newPost.id });
+	})
+	if (post?.authorId === req.body.github) return res.status(200).json({post});
+	return res.status(400).json({error: 'file not found'});
 }
