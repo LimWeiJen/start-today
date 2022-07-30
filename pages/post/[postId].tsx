@@ -4,14 +4,16 @@ import React, { useEffect, useState } from 'react'
 import { Post } from '@prisma/client'
 
 const Post = () => {
+	////// VARIABLES //////
 	const postId = useRouter().query.postId as string
 	const {data: session} = useSession();
 	const [post, setPost] = useState<Post>();
 	const [newTitle, setNewTitle] = useState("");
 	const [newContent, setNewContent] = useState("");
 
+	////// USE EFFECTS //////
 	useEffect(() => {
-		if (post) return
+		if (post) return;
 		fetch('/api/getPost', {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
@@ -23,11 +25,10 @@ const Post = () => {
 			setPost(res.post);
 			setNewTitle(res.post.title);
 			setNewContent(res.post.content);
-		}).catch(err => {
-			console.log(err);
-		})
+		}).catch(err => { console.log(err) });
 	})
 
+	////// FUNCTIONS //////
 	const updatePost = () => {
 		console.log(newTitle, newContent);
 		fetch('/api/updatePost', {
