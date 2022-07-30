@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { User, Post } from '@prisma/client'
 
 const Dashboard = () => {
@@ -34,6 +34,19 @@ const Dashboard = () => {
 		})
 	}
 
+	const deletePost = (postId: string) => {
+		fetch('/api/deletePost', {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({
+				id: postId,
+				github: session?.github
+			})
+		}).then(res => res.json()).then(res => {
+			location.href = "/dashboard"
+		})
+	}
+
 	const _diffBtwDates = (date1: Date | undefined, date2: Date) => {
 		if (!date1) return 0;
 		const diff = Math.abs(date2.getTime() - new Date(date1).getTime());
@@ -47,7 +60,10 @@ const Dashboard = () => {
 		<button onClick={createNewPost}>Create New Post</button>
 		<div>
 			<h3>Posts</h3>
-			{user?.posts.map(post => <div key={post.id}>{post.title}</div>)}
+			{user?.posts.map(post => <div key={post.id}>
+				{post.title}
+				<button onClick={() => deletePost(post.id)}>delete post</button>
+			</div>)}
 		</div>
 	</div>
 }
