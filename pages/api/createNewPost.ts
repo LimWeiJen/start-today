@@ -14,5 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		}
 	});
 	
-	return res.status(200).json({ postId: newPost.id });
+	return res.status(200).json({ 
+		status: 'success',
+		postId: newPost.id
+	});
 }
