@@ -7,17 +7,13 @@ const Home: NextPage = () => {
 	if (session) location.href = '/dashboard';
 
 	return (
-		<div className='grid-container'>
-			<div className='ceiling animate-[fade-in_2s]'></div>
-			<div className='top-left animate-[fade-in_3s] text-gray grid place-content-center text-4xl underline'>User</div>
-			<div className='top-right flex flex-col justify-center pl-10 animate-[fade-in_2.5s]'>
-				<h1 className='text-gray text-6xl animate-[text-fade-in_2s_ease-in-out]'>HAB journal</h1>
-				<h1 className='text-blue text-6xl animate-[text-fade-in_2s_ease-in-out]'>log in</h1>
-				<button className='bg-gray text-black p-3 mt-5 mr-5' onClick={() => signIn()}>
-					log in with github
-				</button>
-			</div>
-			<div className='bottom-left animate-[fade-in_3.5s]'></div>
+		<div className='grid place-content-center h-screen'>
+			<h1 className='text-gray text-center'>@day one</h1>
+			<h1 className='text-gray text-7xl font-bold text-center'>Day One</h1>
+			<button className='bg-white bg-opacity-10 transition-all hover:scale-110 hover:rotate-1 shadow-lg mt-5 p-3 rounded-md' onClick={() => signIn()}>
+				log in with github
+			</button>
+			<h1 className='absolute bottom-0 w-full text-center text-gray font-thin mb-5'>created by @limweijen ^_^</h1>
 		</div>
 	)
 }

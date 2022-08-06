@@ -59,21 +59,20 @@ const Dashboard = () => {
 		return Math.ceil(diff / (1000 * 3600 * 24));
 	}
 
-	return <div className='grid-container'>
-		<div className='ceiling animate-[fade-in_2s]'></div>
-		<div className='top-left animate-[fade-in_3s] text-gray grid place-content-center text-4xl underline'>{session?.user?.name}</div>
-		<div className='top-right flex flex-col text-white p-8 animate-[fade-in_2.5s]'>
-			{user?.posts.map((post, i) => <div key={post.id} className={`flex justify-between m-1 border-gray rounded-xl border-2 p-1 text-xl font-medium`}>
+	return <div>
+		<div className='bg-gray bg-opacity-10 flex justify-evenly m-5 rounded-md p-3'>
+			<button className='bg-gray px-6 py-2 rounded-full transition-all hover:shadow-2xl bg-opacity-70 hover:scale-110 hover:rotate-1' onClick={createNewPost}>Create New Post</button>
+			<h1 className='bg-blue text-xl shadow-2xl font-bold text-dark-blue bg-opacity-80 rounded-full px-6 py-2'>{session?.user?.name}</h1>
+			<button className='bg-gray px-6 py-2 rounded-full transition-all hover:shadow-2xl bg-opacity-70 hover:scale-110 hover:rotate-1' onClick={() => signOut().then(() => location.href = '/')}>Sign Out</button>
+		</div>
+		<div className='m-5'>
+			{user?.posts.map((post, i) => <div key={post.id} className="flex justify-between border-gray transition-all hover:shadow-2xl hover:bg-gray hover:text-dark-blue text-gray border-2 rounded-lg p-3 m-3">
 					<Link href={`/post/${post.id}`}>
-						<h1 className='hover:cursor-pointer hover:underline'>Day {post.day} - {post.title}</h1>
+						<h1 className='hover:cursor-pointer text-2xl grid place-content-center'>Day {post.day} - {post.title}</h1>
 					</Link>
-					<button className='p-1 font-normal text-gray transition-all rounded-xl hover:bg-gray hover:text-dark-blue' onClick={() => deletePost(post.id)}>Delete</button>
+					<button className='hover:bg-dark-blue hover:text-gray p-3 rounded-lg transition-all' onClick={() => deletePost(post.id)}>Delete</button>
 				</div>
 			)}
-		</div>
-		<div className='bottom-left flex flex-col justify-evenly animate-[fade-in_3.5s]'>
-			<button className='bg-gray text-black p-1 transition-all hover:bg-dark-blue hover:text-gray' onClick={() => signOut().then(() => location.href = '/')}>Sign Out</button>
-			<button className='bg-gray text-black p-1 transition-all hover:bg-dark-blue hover:text-gray' onClick={createNewPost}>Create New Post</button>
 		</div>
 	</div>
 }

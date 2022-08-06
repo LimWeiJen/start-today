@@ -48,20 +48,17 @@ const Post = () => {
 	}
 
 	return <div>
-		<div className='grid-container'>
-			<div className='ceiling animate-[fade-in_2s]'></div>
-			<div className='top-left animate-[fade-in_3s]'></div>
-			<div className='top-right flex'>
-				<div className='flex-[0.3]'>
-					<input className='bg-dark-blue text-white text-4xl outline-none w-fit' type="text" placeholder='type your title here' defaultValue={newTitle} onChange={e => setNewTitle(e.target.value)}/>
-					<h1 className='text-white text-4xl'>Day {post?.day || '1'}</h1>
+		<div>
+			<div>
+				<div>
+					<input type="text" placeholder='type your title here' defaultValue={newTitle} onChange={e => setNewTitle(e.target.value)}/>
+					<h1>Day {post?.day || '1'}</h1>
 				</div>
-				<div className='flex flex-col w-full p-10'>
-					<textarea className='h-full p-3 rounded-xl bg-dark-blue outline-none border-2 text-white border-gray' placeholder='type your content here' defaultValue={newContent} onChange={e => setNewContent(e.target.value)} />
-					<button className='text-gray w-fit p-1 mt-1 transition-all rounded-xl hover:bg-gray hover:text-dark-blue' onClick={updatePost}>Update Post</button>
+				<div>
+					<textarea placeholder='type your content here' defaultValue={newContent} onChange={e => setNewContent(e.target.value)} />
+					<button onClick={updatePost}>Update Post</button>
 				</div>
 			</div>
-			<div className='bottom-left animate-[fade-in_3.5s]'></div>
 		</div>
 	</div>
 }
