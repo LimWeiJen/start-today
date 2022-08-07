@@ -61,19 +61,21 @@ const Dashboard = () => {
 	}
 
 	return <div>
-		<div className='flex justify-center m-5'>
+		<div className='flex lg:justify-center justify-between m-5'>
 			<div>
 				<h1 className='text-white font-bold text-xl'>{session?.user?.name}</h1>
 				<h1 className='text-white font-thin opacity-80 text-sm'>@{session?.user?.name}</h1>
 			</div>
-			<div title='add new post' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><PlusIcon className='w-10 text-white' onClick={createNewPost} /></div>
-			<div title='sign out' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><LogoutIcon className='w-10 text-white' onClick={() => signOut().then(() => location.href = '/')} /></div>
+			<div className='flex'>
+				<div title='add new post' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><PlusIcon className='w-10 text-white' onClick={createNewPost} /></div>
+				<div title='sign out' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><LogoutIcon className='w-10 text-white' onClick={() => signOut().then(() => location.href = '/')} /></div>
+			</div>
 		</div>
-		<div className='mx-20 bg-white bg-opacity-50 p-1 pl-3 rounded-xl flex mb-12'>
+		<div className='lg:mx-20 mx-5 bg-white bg-opacity-50 p-1 pl-3 rounded-xl flex mb-12'>
 			<div title='search' className='mx-1'><SearchIcon className='text-white w-6'/></div>
 			<input type="text" className='w-full bg-white bg-opacity-0 text-white outline-none border-none'/>
 		</div>
-		<div className='mx-40'>
+		<div className='lg:mx-40'>
 			{user?.posts.map((post, i) => <div key={post.id} className='flex w-full mx-1 my-5'>
 				<Link href={`/post/${post.id}`}>
 					<div className='flex-1 hover:cursor-pointer transition-all hover:shadow-2xl hover:scale-[1.03] text-white flex bg-black rounded-xl bg-opacity-70'>

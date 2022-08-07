@@ -49,17 +49,19 @@ const Post = () => {
 	}
 
 	return <div>
-		<div className='flex justify-center m-5'>
+		<div className='flex lg:justify-center justify-between m-5'>
 			<div>
 				<h1 className='text-white font-bold text-xl'>{session?.user?.name}</h1>
 				<h1 className='text-white font-thin opacity-80 text-sm'>@{session?.user?.name}</h1>
 			</div>
-			<div title='home' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><HomeIcon className='w-10 text-white' onClick={() => location.href = '/dashboard'} /></div>
-			<div title='save' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><SaveIcon className='w-10 text-white' onClick={updatePost} /></div>
+			<div className='flex'>
+				<div title='home' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><HomeIcon className='w-10 text-white' onClick={() => location.href = '/dashboard'} /></div>
+				<div title='save' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><SaveIcon className='w-10 text-white' onClick={updatePost} /></div>
+			</div>
 		</div>
-		<input className='bg-white outline-none border-none font-black bg-opacity-0 w-full text-center text-blue text-5xl' type="text" placeholder='type your title here' defaultValue={newTitle} onChange={e => setNewTitle(e.target.value)}/>
-		<h1 className='w-full text-center text-white text-xl font-light opacity-80'>Day {post?.day || '0'}</h1>
-		<textarea className='w-full h-[400px] resize-none p-20 bg-white text-white bg-opacity-0 border-none outline-none' placeholder='type your content here' defaultValue={newContent} onChange={e => setNewContent(e.target.value)} />
+		<input className='bg-white lg:m-0 mx-5 outline-none border-none font-black bg-opacity-0 w-full lg:text-center text-blue lg:text-5xl text-xl' type="text" placeholder='type your title here' defaultValue={newTitle} onChange={e => setNewTitle(e.target.value)}/>
+		<h1 className='w-full lg:m-0 mx-5 lg:text-center text-white lg:text-xl text-lg font-light opacity-80'>Day {post?.day || '0'}</h1>
+		<textarea className='w-full h-[600px] lg:h-[400px] resize-none lg:p-20 p-5 bg-white text-white bg-opacity-0 border-none outline-none' placeholder='type your content here' defaultValue={newContent} onChange={e => setNewContent(e.target.value)} />
 	</div>
 }
 
