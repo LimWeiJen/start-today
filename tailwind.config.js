@@ -7,10 +7,10 @@ module.exports = {
   theme: {
     colors: {
       'dark-blue': '#171D2D',
-      'gray': '#B8B8B8',
-      'blue': '#5582F6',
-      'black': '#636363',
       'white': '#FFFFFF',
+      'blue': '#5582F6',
+      'gray': '#D9D9D9',
+      'black': '#000000',
     },
     extend: {
       keyframes: {
