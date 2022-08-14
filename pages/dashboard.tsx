@@ -7,11 +7,13 @@ import { PlusIcon, LogoutIcon, HomeIcon, TrashIcon, SearchIcon } from '@heroicon
 const Dashboard = () => {
 	////// VARIABLES //////
 	const [user, setUser] = useState<User & {posts: Array<Post>}>();
+	const [posts, setPosts] = useState<Array<Post>>([]);
 	const {data: session} = useSession();
 
 	////// USE EFFECTS //////
 	useEffect(() => {
 		if (!session) return;
+		if (user) return;
 
 		// on load, get user data
 		fetch('/api/getUserOrCreateNew', {
@@ -21,7 +23,10 @@ const Dashboard = () => {
 				github: session?.github,
 				name: session?.userName
 			})
-		}).then(res => res.json()).then(res => setUser(res));
+		}).then(res => res.json()).then(res => {
+			setPosts(res.posts);
+			setUser(res);
+		});
 	})
 
 	////// FUNCTIONS //////
@@ -60,7 +65,12 @@ const Dashboard = () => {
 		return Math.ceil(diff / (1000 * 3600 * 24));
 	}
 
-	return <div>
+	const _searchPost = (keyword: string) => {
+		if (!keyword) setPosts(user?.posts!);
+		else setPosts([...posts.filter(post => ("Day " + post.day.toString() + " - " + post.title).includes(keyword))]);
+	}
+
+	return <div className='img-2'>
 		<div className='flex lg:justify-center justify-between m-5'>
 			<div>
 				<h1 className='text-white font-bold text-xl'>{session?.user?.name}</h1>
@@ -73,10 +83,10 @@ const Dashboard = () => {
 		</div>
 		<div className='lg:mx-20 mx-5 bg-white bg-opacity-50 p-1 pl-3 rounded-xl flex mb-12'>
 			<div title='search' className='mx-1'><SearchIcon className='text-white w-6'/></div>
-			<input type="text" className='w-full bg-white bg-opacity-0 text-white outline-none border-none'/>
+			<input type="text" onChange={e => _searchPost(e.target.value)} className='w-full bg-white bg-opacity-0 text-white outline-none border-none'/>
 		</div>
-		<div className='lg:mx-40'>
-			{user?.posts.map((post, i) => <div key={post.id} className='flex w-full mx-1 my-5'>
+		<div className='lg:px-40'>
+			{posts.map((post, i) => <div key={post.id} className='flex w-full mx-1 py-3'>
 				<Link href={`/post/${post.id}`}>
 					<div className='flex-1 hover:cursor-pointer transition-all hover:shadow-2xl hover:scale-[1.03] text-white flex bg-black rounded-xl bg-opacity-70'>
 						<h1 className='p-3 grid place-content-center'>Day {post.day} - {post.title}</h1>

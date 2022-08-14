@@ -48,7 +48,7 @@ const Post = () => {
 		})
 	}
 
-	return <div>
+	return <div className='img-2'>
 		<div className='flex lg:justify-center justify-between m-5'>
 			<div>
 				<h1 className='text-white font-bold text-xl'>{session?.user?.name}</h1>
