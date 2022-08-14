@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import { signIn, useSession } from 'next-auth/react'
+import Head from 'next/head';
 
 const Home: NextPage = () => {
 	const {data: session} = useSession();
@@ -8,6 +9,13 @@ const Home: NextPage = () => {
 
 	return (
 		<div className='grid place-content-center h-screen img-1'>
+			<Head>
+				<title>Start Today</title>
+				<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+				<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+				<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+				<link rel="manifest" href="/site.webmanifest" />
+			</Head>
 			<h1 className='text-gray text-center mb-5 font-extralight opacity-80'>@start today</h1>
 			<h1 className='text-white lg:text-7xl text-6xl font-bold text-center mb-5'>Start <span className='text-blue'>Today</span></h1>
 			<div className='grid place-items-center'>
