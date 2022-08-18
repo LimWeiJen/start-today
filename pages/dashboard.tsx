@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { signOut, useSession } from 'next-auth/react'
 import { User, Post } from '@prisma/client'
 import Link from 'next/link';
-import { PlusIcon, LogoutIcon, HomeIcon, TrashIcon, SearchIcon } from '@heroicons/react/solid';
+import { PlusIcon, LogoutIcon, TrashIcon, SearchIcon } from '@heroicons/react/solid';
 
-const Dashboard = () => {
+const Dashboard = ({ user }: {user: User & {posts: Array<Post>} | any}) => {
 	////// VARIABLES //////
-	const [user, setUser] = useState<User & {posts: Array<Post>}>();
 	const [posts, setPosts] = useState<Array<Post>>([]);
 	const {data: session} = useSession();
 
@@ -15,18 +14,7 @@ const Dashboard = () => {
 		if (!session) return;
 		if (user) return;
 
-		// on load, get user data
-		fetch('/api/getUserOrCreateNew', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify({
-				github: session?.github,
-				name: session?.userName
-			})
-		}).then(res => res.json()).then(res => {
-			setPosts(res.posts);
-			setUser(res);
-		});
+		setPosts(user.posts);
 	})
 
 	////// FUNCTIONS //////
@@ -97,6 +85,23 @@ const Dashboard = () => {
 			)}
 		</div>
 	</div>
+}
+
+export async function getServerSideProps() {
+	const {data: session} = useSession();
+	// on load, get user data
+	const res = await fetch('/api/getUserOrCreateNew', {
+		method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			github: session?.github,
+			name: session?.userName
+		})
+	})
+
+	const data = await res.json();
+
+	return { props: { data } }
 }
 
 export default Dashboard
