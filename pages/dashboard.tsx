@@ -3,12 +3,14 @@ import { signOut, useSession } from 'next-auth/react'
 import { User, Post } from '@prisma/client'
 import Link from 'next/link';
 import { PlusIcon, LogoutIcon, TrashIcon, SearchIcon } from '@heroicons/react/solid';
-
-const {data: session} = useSession();
+import { unstable_getServerSession } from 'next-auth/next';
+import { GetServerSidePropsContext } from 'next';
+import { authOptions } from './api/auth/[...nextauth]';
 
 const Dashboard = ({ user }: {user: User & {posts: Array<Post>} | any}) => {
 	////// VARIABLES //////
 	const [posts, setPosts] = useState<Array<Post>>([]);
+	const {data: session} = useSession();
 
 	////// USE EFFECTS //////
 	useEffect(() => {
@@ -88,7 +90,9 @@ const Dashboard = ({ user }: {user: User & {posts: Array<Post>} | any}) => {
 	</div>
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const session = await unstable_getServerSession(context.req, context.res, authOptions);
+
 	// on load, get user data
 	const res = await fetch('/api/getUserOrCreateNew', {
 		method: 'POST',
@@ -98,6 +102,10 @@ export async function getServerSideProps() {
 			name: session?.userName
 		})
 	})
+	// .then(res => res.json()).then(res => {
+	// 	setPosts(res.posts);
+	// 	setUser(res);
+	// });
 
 	const data = await res.json();
 
