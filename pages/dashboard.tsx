@@ -4,10 +4,11 @@ import { User, Post } from '@prisma/client'
 import Link from 'next/link';
 import { PlusIcon, LogoutIcon, TrashIcon, SearchIcon } from '@heroicons/react/solid';
 
+const {data: session} = useSession();
+
 const Dashboard = ({ user }: {user: User & {posts: Array<Post>} | any}) => {
 	////// VARIABLES //////
 	const [posts, setPosts] = useState<Array<Post>>([]);
-	const {data: session} = useSession();
 
 	////// USE EFFECTS //////
 	useEffect(() => {
@@ -88,7 +89,6 @@ const Dashboard = ({ user }: {user: User & {posts: Array<Post>} | any}) => {
 }
 
 export async function getServerSideProps() {
-	const {data: session} = useSession();
 	// on load, get user data
 	const res = await fetch('/api/getUserOrCreateNew', {
 		method: 'POST',
