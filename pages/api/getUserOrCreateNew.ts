@@ -1,9 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { PrismaClient, User } from '@prisma/client';
+import { unstable_getServerSession } from 'next-auth';
+import { authOptions } from './auth/[...nextauth]';
 
 const prisma = new PrismaClient();
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<User>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<User | any>) {
+	const session = await unstable_getServerSession(req, res, authOptions);
+	if (!session) return res.status(401).json({ status: "failed: unauthorized" });
+
 	// find the user
 	let user = await prisma.user.findFirst({ 
 		where: { github: req.body.github },
