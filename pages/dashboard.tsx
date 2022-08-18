@@ -102,12 +102,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			name: session?.userName
 		})
 	})
-	// .then(res => res.json()).then(res => {
-	// 	setPosts(res.posts);
-	// 	setUser(res);
-	// });
 
 	const data = await res.json();
+
+	console.log(data);
 
 	return { props: { data } }
 }
