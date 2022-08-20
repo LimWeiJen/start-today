@@ -3,12 +3,16 @@ import { signOut, useSession } from 'next-auth/react'
 import { User, Post } from '@prisma/client'
 import Link from 'next/link';
 import { PlusIcon, LogoutIcon, TrashIcon, SearchIcon } from '@heroicons/react/solid';
+import { getSession } from 'next-auth/react';
+import { authOptions } from './api/auth/[...nextauth]';
+import { unstable_getServerSession } from 'next-auth';
 
-const Dashboard = () => {
+const Dashboard = (props: any) => {
 	////// VARIABLES //////
 	const [user, setUser] = useState<User & {posts: Array<Post>}>();
 	const [posts, setPosts] = useState<Array<Post>>([]);
 	const {data: session} = useSession();
+	const [loading, setLoading] = useState(false);
 
 	////// USE EFFECTS //////
 	useEffect(() => {
@@ -31,6 +35,7 @@ const Dashboard = () => {
 
 	////// FUNCTIONS //////
 	const createNewPost = () => {
+		setLoading(true);
 		fetch('/api/createNewPost', {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
@@ -77,7 +82,9 @@ const Dashboard = () => {
 				<h1 className='text-white font-thin opacity-80 text-sm'>@{session?.user?.name}</h1>
 			</div>
 			<div className='flex'>
-				<div title='add new post' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><PlusIcon className='w-10 text-white' onClick={createNewPost} /></div>
+				{loading ? 
+				<div className="loading mx-3"></div> : 
+				<div title='add new post' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><PlusIcon className='w-10 text-white' onClick={createNewPost} /></div>}
 				<div title='sign out' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><LogoutIcon className='w-10 text-white' onClick={() => signOut().then(() => location.href = '/')} /></div>
 			</div>
 		</div>
@@ -86,7 +93,7 @@ const Dashboard = () => {
 			<input type="text" onChange={e => _searchPost(e.target.value)} className='w-full bg-white bg-opacity-0 text-white outline-none border-none'/>
 		</div>
 		<div className='lg:px-40'>
-			{posts.map((post, i) => <div key={post.id} className='flex w-full mx-1 py-3'>
+			{posts.sort((a, b) => b.day - a.day).map((post, i) => <div key={post.id} className='flex w-full mx-1 py-3'>
 				<Link href={`/post/${post.id}`}>
 					<div className='flex-1 hover:cursor-pointer transition-all hover:shadow-2xl hover:scale-[1.03] text-white flex bg-black rounded-xl bg-opacity-70'>
 						<h1 className='p-3 grid place-content-center'>Day {post.day} - {post.title}</h1>
@@ -97,6 +104,27 @@ const Dashboard = () => {
 			)}
 		</div>
 	</div>
+}
+
+export async function getServerSideProps({req}: any) {
+	const session = await getSession({ req });
+
+	const res = await fetch('http://localhost:3000/api/getUserOrCreateNew', {
+		method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			github: session?.github,
+			name: session?.userName
+		})
+	});
+	const data = await res.json();
+	console.log(data);
+
+	return {
+		props: {
+			session: session?.user?.name
+		}
+	}
 }
 
 export default Dashboard

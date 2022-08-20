@@ -11,6 +11,7 @@ const Post = () => {
 	const [post, setPost] = useState<Post>();
 	const [newTitle, setNewTitle] = useState("");
 	const [newContent, setNewContent] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	////// USE EFFECTS //////
 	useEffect(() => {
@@ -33,7 +34,7 @@ const Post = () => {
 
 	////// FUNCTIONS //////
 	const updatePost = () => {
-		console.log(newTitle, newContent);
+		setLoading(true);
 		fetch('/api/updatePost', {
 			method: 'POST',
 			headers: {'Content-Type': 'application/json'},
@@ -56,7 +57,9 @@ const Post = () => {
 			</div>
 			<div className='flex'>
 				<div title='home' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><HomeIcon className='w-10 text-white' onClick={() => location.href = '/dashboard'} /></div>
-				<div title='save' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><SaveIcon className='w-10 text-white' onClick={updatePost} /></div>
+				{loading ? 
+					<div className="loading"></div>:	
+					<div title='save' className='mx-1 transition-all hover:scale-110 hover:cursor-pointer hover:rotate-3'><SaveIcon className='w-10 text-white' onClick={updatePost} /></div>}
 			</div>
 		</div>
 		<input className='bg-white lg:m-0 mx-5 outline-none border-none font-black bg-opacity-0 w-full lg:text-center text-blue lg:text-5xl text-xl' type="text" placeholder='type your title here' defaultValue={newTitle} onChange={e => setNewTitle(e.target.value)}/>
