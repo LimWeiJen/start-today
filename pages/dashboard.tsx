@@ -3,8 +3,11 @@ import { signOut, useSession } from 'next-auth/react'
 import { User, Post } from '@prisma/client'
 import Link from 'next/link';
 import { PlusIcon, LogoutIcon, TrashIcon, SearchIcon } from '@heroicons/react/solid';
+import { getSession } from 'next-auth/react';
+import { authOptions } from './api/auth/[...nextauth]';
 
-const Dashboard = () => {
+const Dashboard = (props: any) => {
+	console.log(props.session)
 	////// VARIABLES //////
 	const [user, setUser] = useState<User & {posts: Array<Post>}>();
 	const [posts, setPosts] = useState<Array<Post>>([]);
@@ -97,6 +100,14 @@ const Dashboard = () => {
 			)}
 		</div>
 	</div>
+}
+
+export async function getServerSideProps(ctx: any) {
+	return {
+		props: {
+			session: await getSession(ctx)
+		}
+	}
 }
 
 export default Dashboard
