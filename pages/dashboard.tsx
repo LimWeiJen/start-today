@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { PlusIcon, LogoutIcon, TrashIcon, SearchIcon } from '@heroicons/react/solid';
 import { getSession } from 'next-auth/react';
 import { authOptions } from './api/auth/[...nextauth]';
+import { unstable_getServerSession } from 'next-auth';
 
 const Dashboard = (props: any) => {
 	console.log(props.session)
@@ -105,7 +106,11 @@ const Dashboard = (props: any) => {
 export async function getServerSideProps(ctx: any) {
 	return {
 		props: {
-			session: await getSession(ctx)
+			session: await unstable_getServerSession(
+				ctx.req,
+				ctx.res,
+				authOptions
+			)
 		}
 	}
 }
