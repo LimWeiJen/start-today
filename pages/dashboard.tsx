@@ -103,14 +103,12 @@ const Dashboard = (props: any) => {
 	</div>
 }
 
-export async function getServerSideProps(ctx: any) {
+export async function getServerSideProps({req}: any) {
+
+	console.log(await getSession({ req }))
 	return {
 		props: {
-			session: await unstable_getServerSession(
-				ctx.req,
-				ctx.res,
-				authOptions
-			)
+			session: await getSession({ req })
 		}
 	}
 }
