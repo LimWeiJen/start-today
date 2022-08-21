@@ -36,3 +36,17 @@ body {
   60% {background-position: 0% 50% ,50% 100%,100% 0%  }
   80% {background-position: 0% 50% ,50% 50% ,100% 100%}
 }
+
+.text-fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

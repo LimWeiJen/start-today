@@ -8,6 +8,7 @@ import { authOptions } from './api/auth/[...nextauth]';
 import { unstable_getServerSession } from 'next-auth';
 
 const Dashboard = (props: any) => {
+	console.log(props.data)
 	////// VARIABLES //////
 	const [user, setUser] = useState<User & {posts: Array<Post>}>();
 	const [posts, setPosts] = useState<Array<Post>>([]);
@@ -109,20 +110,29 @@ const Dashboard = (props: any) => {
 export async function getServerSideProps({req}: any) {
 	const session = await getSession({ req });
 
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
+	}
+
 	const res = await fetch('http://localhost:3000/api/getUserOrCreateNew', {
 		method: 'POST',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({
 			github: session?.github,
-			name: session?.userName
+			name: session?.userName,
+			secret: process.env.API_SECRET
 		})
 	});
 	const data = await res.json();
-	console.log(data);
 
 	return {
 		props: {
-			session: session?.user?.name
+			data
 		}
 	}
 }
