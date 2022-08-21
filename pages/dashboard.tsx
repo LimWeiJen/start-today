@@ -125,7 +125,7 @@ export async function getServerSideProps({req}: any) {
 		body: JSON.stringify({
 			github: session?.github,
 			name: session?.userName,
-			secret: process.env.API_SECRET
+			secret: process.env.SECRET
 		})
 	});
 	const data = await res.json();
