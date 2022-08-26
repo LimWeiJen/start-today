@@ -73,10 +73,11 @@ const Dashboard = (props: any) => {
 
 	const _searchPost = (keyword: string) => {
 		if (!keyword) setPosts(user?.posts!);
-		else setPosts([...posts.filter(post => ("Day " + post.day.toString() + " - " + post.title).includes(keyword))]);
+		else setPosts([...posts.filter(post => ("day " + post.day.toString() + " - " + post.title.toLowerCase()).includes(keyword.toLowerCase()))]);
 	}
 
-	return <div className='img-2'>
+	return <div>
+		<div className='img-2'></div>
 		<div className='flex lg:justify-center justify-between m-5'>
 			<div>
 				<h1 className='text-white font-bold text-xl'>{session?.user?.name}</h1>

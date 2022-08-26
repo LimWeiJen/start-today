@@ -13,7 +13,10 @@ body {
 	}
 
 	.img-2 {
-		height: 100vh;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: -1;
 		background: url('../public/Start\ Today\ \(1\).svg') no-repeat center fixed;
 		background-size: cover;
 	}
