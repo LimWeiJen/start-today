@@ -120,7 +120,7 @@ export async function getServerSideProps({req}: any) {
 		};
 	}
 
-	const res = await fetch('http://localhost:3000/api/getUserOrCreateNew', {
+	const res = await fetch('https://start-today.vercel.app/api/getUserOrCreateNew', {
 		method: 'POST',
 		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify({
