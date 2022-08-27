@@ -108,34 +108,34 @@ const Dashboard = (props: any) => {
 	</div>
 }
 
-// export async function getServerSideProps({req}: any) {
-// 	const session = await getSession({ req });
+export async function getServerSideProps({req}: any) {
+	const session = await getSession({ req });
 
-// 	if (!session) {
-// 		return {
-// 			redirect: {
-// 				destination: '/',
-// 				permanent: false,
-// 			},
-// 		};
-// 	}
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
+	}
 
-// 	const res = await fetch('http://localhost:3000/api/getUserOrCreateNew', {
-// 		method: 'POST',
-// 		headers: {'Content-Type': 'application/json'},
-// 		body: JSON.stringify({
-// 			github: session?.github,
-// 			name: session?.userName,
-// 			secret: process.env.SECRET
-// 		})
-// 	});
-// 	const data = await res.json();
+	const res = await fetch('http://localhost:3000/api/getUserOrCreateNew', {
+		method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			github: session?.github,
+			name: session?.userName,
+			secret: process.env.SECRET
+		})
+	});
+	const data = await res.json();
 
-// 	return {
-// 		props: {
-// 			data
-// 		}
-// 	}
-// }
+	return {
+		props: {
+			data
+		}
+	}
+}
 
 export default Dashboard

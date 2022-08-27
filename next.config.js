@@ -2,6 +2,6 @@
 module.exports = {
   reactStrictMode: true,
   env: {
-    API_SECRET: process.env.SECRET,
+    SECRET: process.env.SECRET,
   }
 }
