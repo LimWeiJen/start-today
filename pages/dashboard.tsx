@@ -109,6 +109,7 @@ const Dashboard = (props: any) => {
 }
 
 export async function getServerSideProps({req}: any) {
+	console.log('client: ' + process.env.SECRET);
 	const session = await getSession({ req });
 
 	if (!session) {
@@ -126,7 +127,7 @@ export async function getServerSideProps({req}: any) {
 		body: JSON.stringify({
 			github: session?.github,
 			name: session?.userName,
-			secret: 'f7ce7e5710681674091270176432f5d4'
+			secret: process.env.SECRET
 		})
 	});
 	const data = await res.json();
