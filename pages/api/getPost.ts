@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const session = await unstable_getServerSession(req, res, authOptions);
-	if (!session) return res.status(401).json({ status: "failed: unauthorized" });
+	if (!session && req.body.secret !== process.env.SECRET) return res.status(401).json({ status: "failed: unauthorized" });
 
 	// get the post
 	const post = await prisma.post.findFirst({ where: { id: req.body.id } })

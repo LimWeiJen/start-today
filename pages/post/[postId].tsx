@@ -1,36 +1,15 @@
-import { useSession } from 'next-auth/react'
+import { getSession, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
-import { Post } from '@prisma/client'
 import { HomeIcon, SaveIcon} from '@heroicons/react/solid'
 
-const Post = () => {
+const Post = ({post}: any) => {
 	////// VARIABLES //////
 	const postId = useRouter().query.postId as string
 	const {data: session} = useSession();
-	const [post, setPost] = useState<Post>();
-	const [newTitle, setNewTitle] = useState("");
-	const [newContent, setNewContent] = useState("");
+	const [newTitle, setNewTitle] = useState(post.title);
+	const [newContent, setNewContent] = useState(post.content);
 	const [loading, setLoading] = useState(false);
-
-	////// USE EFFECTS //////
-	useEffect(() => {
-		if (post) return;
-		fetch('/api/getPost', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify({
-				id: postId,
-				github: session?.github
-			})
-		}).then(res => res.json()).then(res => {
-			if (res.status === "success") {
-				setPost(res.post);
-				setNewTitle(res.post.title);
-				setNewContent(res.post.content);
-			}
-		});
-	})
 
 	////// FUNCTIONS //////
 	const updatePost = () => {
@@ -66,6 +45,36 @@ const Post = () => {
 		<h1 className='w-full lg:m-0 mx-5 lg:text-center text-white lg:text-xl text-lg font-light opacity-80'>Day {post?.day || '0'}</h1>
 		<textarea spellCheck={false} className='w-full h-[600px] lg:h-[400px] resize-none lg:p-20 p-5 bg-white text-white bg-opacity-0 border-none outline-none' placeholder='type your content here' defaultValue={newContent} onChange={e => setNewContent(e.target.value)} />
 	</div>
+}
+
+export async function getServerSideProps({req, query}: any) {
+	const session = await getSession({ req });
+
+	if (!session) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
+	}
+
+	const res = await fetch('https://start-today.vercel.app/api/getPost', {
+		method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			id: query.postId as string,
+			github: session?.github,
+			secret: process.env.SECRET
+		})
+	});
+	const data = await res.json();
+
+	return {
+		props: {
+			post: data.post
+		}
+	}
 }
 
 export default Post
