@@ -109,7 +109,6 @@ const Dashboard = (props: any) => {
 }
 
 export async function getServerSideProps({req}: any) {
-	console.log('client: ' + process.env.SECRET);
 	const session = await getSession({ req });
 
 	if (!session) {
