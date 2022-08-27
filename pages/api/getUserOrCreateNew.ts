@@ -15,6 +15,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 		include: { posts: true }
 	})
 
+	console.log(user);
+
 	// if the user doesn't exist, create one
 	if (!user) user = await prisma.user.create({
 		data: {
