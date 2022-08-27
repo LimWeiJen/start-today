@@ -6,7 +6,6 @@ import { authOptions } from './auth/[...nextauth]';
 const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<User | any>) {
-	return res.status(200).json({ status: "testing" })
 	const session = await unstable_getServerSession(req, res, authOptions);
 	if (!session && req.body.secret !== process.env.SECRET) return res.status(401).json({ status: "failed: unauthorized" });
 
