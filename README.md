@@ -17,7 +17,7 @@
 A clean, fast, simple, elegant journal website
 - Date of Creation: 15/7/2022
 - Author: Lim Wei Jen
-- Version: 1.0.0
+- Version: 1.1.0
 
 ## 📷 Screenshots
 ![img](https://i.imgur.com/5KR6UZe.png)

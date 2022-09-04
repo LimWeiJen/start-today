@@ -72,7 +72,7 @@ const Dashboard = ({user}: any) => {
 			<input type="text" onChange={e => _searchPost(e.target.value)} className='w-full bg-white bg-opacity-0 text-white outline-none border-none'/>
 		</div>
 		<div className='lg:px-40'>
-			{posts.sort((a, b) => b.day - a.day).map((post, i) => <div key={post.id} className='flex w-full mx-1 py-3'>
+			{posts.sort((a, b) => b.day - a.day).map((post, i) => <div key={post.id} className='flex w-full mx-1 py-3 post-embed' style={{animationDelay: `${i/10}s`}}>
 				<Link href={`/post/${post.id}`}>
 					<div className='flex-1 hover:cursor-pointer transition-all hover:shadow-2xl hover:scale-[1.03] text-white flex bg-black rounded-xl bg-opacity-70'>
 						<h1 className='p-3 grid place-content-center'>Day {post.day} - {post.title}</h1>

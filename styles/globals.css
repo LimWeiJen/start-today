@@ -45,11 +45,35 @@ body {
   animation: fadeIn 1s ease-in-out forwards;
 }
 
+.post-embed {
+  opacity: 0;
+  animation: fadeIn2 1s ease-in-out forwards;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
   }
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes fadeIn2 {
+  0% {
+    opacity: 0;
+    transform: scale(.3);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+  70% { 
+    opacity: 1;
+    transform: scale(.95); 
+  }
+  100% { 
+    opacity: 1;
+    transform: scale(1); 
   }
 }
