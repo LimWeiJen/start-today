@@ -22,6 +22,7 @@ model Post {
   day       Int
   title     String
   content   String
+  imageURL  String?
   date      DateTime @default(now())
   authorId  String
   author    User     @relation(fields: [authorId], references: [github])
