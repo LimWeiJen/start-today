@@ -21,6 +21,7 @@ const Dashboard = ({user}: any) => {
 				github: session?.github,
 				title: "",
 				content: "",
+				imageURL: "",
 				day: _diffBtwDates(user?.createdAt, new Date())
 			})
 		}).then(res => res.json()).then(res => {

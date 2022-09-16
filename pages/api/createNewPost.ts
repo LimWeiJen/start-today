@@ -15,7 +15,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			title: req.body.title,
 			content: req.body.content,
 			authorId: req.body.github,
-			day: req.body.day
+			day: req.body.day,
+			imageURL: req.body.imageURL
 		}
 	});
 	

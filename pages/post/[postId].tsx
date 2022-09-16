@@ -10,6 +10,7 @@ const Post = ({post}: any) => {
 	const [newTitle, setNewTitle] = useState(post.title);
 	const [newContent, setNewContent] = useState(post.content);
 	const [loading, setLoading] = useState(false);
+	const [newImageURL, setNewImageURL] = useState(post.imageURL || '');
 
 	////// FUNCTIONS //////
 	const updatePost = () => {
@@ -21,14 +22,15 @@ const Post = ({post}: any) => {
 				id: postId,
 				github: session?.github,
 				title: newTitle,
-				content: newContent
+				content: newContent,
+				imageURL: newImageURL
 			})
 		}).then(res => res.json()).then(res => {
 			if (res.status === "success") location.href = "/dashboard";
 		})
 	}
 
-	return <div className='img-2'>
+	return <div className='img-2 overflow-y-scroll'>
 		<div className='flex lg:justify-center justify-between m-5'>
 			<div>
 				<h1 className='text-white font-bold text-xl'>{session?.user?.name}</h1>
@@ -43,7 +45,13 @@ const Post = ({post}: any) => {
 		</div>
 		<input className='bg-white lg:m-0 mx-5 outline-none border-none font-black bg-opacity-0 w-full lg:text-center text-blue lg:text-5xl text-xl' type="text" placeholder='type your title here' defaultValue={newTitle} onChange={e => setNewTitle(e.target.value)}/>
 		<h1 className='w-full lg:m-0 mx-5 lg:text-center text-white lg:text-xl text-lg font-light opacity-80'>Day {post?.day || '0'}</h1>
-		<textarea className='w-full h-[600px] lg:h-[400px] resize-none lg:p-20 p-5 bg-white text-white bg-opacity-0 border-none outline-none' placeholder='type your content here' defaultValue={newContent} onChange={e => setNewContent(e.target.value)} />
+		<div className='w-full flex justify-center'>
+			{newImageURL ? <img src={newImageURL} alt="invalid image url" className='w-[200px]' /> : null}
+		</div>
+		<textarea className='w-full h-[600px] resize-none lg:p-20 p-5 bg-white text-white bg-opacity-0 border-none outline-none' placeholder='type your content here' defaultValue={newContent} onChange={e => setNewContent(e.target.value)} />
+		<div>
+			<input className='bg-white lg:m-0 pb-5 outline-none border-none bg-opacity-0 w-full lg:text-center text-white text-xl' type="text" placeholder='add an image url here' defaultValue={newImageURL} onChange={e => setNewImageURL(e.target.value)}/>
+		</div>
 	</div>
 }
 

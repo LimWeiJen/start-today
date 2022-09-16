@@ -24,6 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 		data: {
 			title: req.body.title,
 			content: req.body.content,
+			imageURL: req.body.imageURL
 		}
 	});
 
