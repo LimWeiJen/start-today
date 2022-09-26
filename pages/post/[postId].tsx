@@ -46,7 +46,10 @@ const Post = ({post}: any) => {
 		<input className='bg-white lg:m-0 mx-5 outline-none border-none font-black bg-opacity-0 w-full lg:text-center text-blue lg:text-5xl text-xl' type="text" placeholder='type your title here' defaultValue={newTitle} onChange={e => setNewTitle(e.target.value)}/>
 		<h1 className='w-full lg:m-0 mx-5 lg:text-center text-white lg:text-xl text-lg font-light opacity-80'>Day {post?.day || '0'}</h1>
 		<div className='w-full flex justify-center'>
-			{newImageURL ? <img src={newImageURL} alt="invalid image url" className='w-[200px]' /> : null}
+			{newImageURL ? <div className="p-10">
+        <img src={newImageURL} className="rounded-xl shadow-2xl" alt="invalid image urls" />
+      </div>
+      : null}
 		</div>
 		<textarea className='w-full h-[600px] resize-none lg:p-20 p-5 bg-white text-white bg-opacity-0 border-none outline-none' placeholder='type your content here' defaultValue={newContent} onChange={e => setNewContent(e.target.value)} />
 		<div>
